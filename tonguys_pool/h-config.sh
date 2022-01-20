@@ -3,6 +3,15 @@
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
+
+. $SCRIPT_DIR/h-manifest.conf
+
+echo "Downloading client release: $CLIENT_RELEASE_URL ..."
+wget $CLIENT_RELEASE_URL -O $SCRIPT_DIR/client.tar.gz
+
+echo "Extracting client archive..."
+tar -xzf $SCRIPT_DIR/client.tar.gz -C $SCRIPT_DIR
+
 ARGS_LINE="-u server1.tonguys.com -m $SCRIPT_DIR/tonguys_miner"
 
 for i in $(echo $CUSTOM_USER_CONFIG); do
@@ -16,4 +25,5 @@ for i in $(echo $CUSTOM_USER_CONFIG); do
     fi
 done
 
-echo "CLI_ARGS=\"$ARGS_LINE\"" > "$CUSTOM_CONFIG_FILENAME"
+echo "EXEC_LINE=\"$SCRIPT_DIR/client $ARGS_LINE\"" > "$CUSTOM_CONFIG_FILENAME"
+echo EXEC_LINE=\"$SCRIPT_DIR/client $ARGS_LINE\"
