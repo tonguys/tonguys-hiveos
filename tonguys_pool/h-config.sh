@@ -12,7 +12,7 @@ wget $CLIENT_RELEASE_URL -O $SCRIPT_DIR/client.tar.gz
 echo "Extracting client archive..."
 tar -xf $SCRIPT_DIR/client.tar.gz -C $SCRIPT_DIR
 
-ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/pow-miner-opencl"
+ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/pow-miner-opencl --stats-file $SCRIPT_DIR/stats.json"
 
 inds="[]"
 
@@ -25,13 +25,13 @@ for i in $(echo $CUSTOM_USER_CONFIG); do
     elif [[ $key = 'gpus' ]]; then
         ARGS_LINE="-G $val $ARGS_LINE"
 	for gpu in $(echo "${val:1:-1}" | sed "s/,/\n/g"); do
-                if [[ $gpu == *"-"* ]]; then
-                        for (( gpu_i=${gpu: 0:1}; gpu_i<=${gpu:2:2}; gpu_i++ )); do
-                                inds=$(echo "$inds" | jq ".[.| length] |= .+ $gpu_i")
-                        done
-                else
-                        inds=$(echo "$inds" | jq ".[.| length] |= .+ $gpu")
-                fi
+            if [[ $gpu == *"-"* ]]; then
+                for (( gpu_i=${gpu: 0:1}; gpu_i<=${gpu:2:2}; gpu_i++ )); do
+                    inds=$(echo "$inds" | jq ".[.| length] |= .+ $gpu_i")
+                done
+            else
+                inds=$(echo "$inds" | jq ".[.| length] |= .+ $gpu")
+            fi
         done
     fi
 done
