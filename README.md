@@ -1,27 +1,40 @@
-# Полезная инфа
+# Tonguys Pool miner package for HiveOS
 
-кусок доки по построению пакетов (не слишком много инфы): https://forum.hiveos.farm/t/custom-miner-integration/4521
+It is a HiveOS package for tonguys_pool.
 
-Описание базовой структуры пакета: https://github.com/minershive/hiveos-linux/blob/master/hive/miners/custom/README.md
+We use [ton-miner-client](https://github.com/tonguys/ton-miner-client) as a pool client and [pow-miner-gpu](https://github.com/tontechio/pow-miner-gpu) as an opencl miner
 
-Другие примеры построения кастомных пакетов: http://download.hiveos.farm/custom/
+# Configuring in HiveOS 
 
-Пакет для хайвы для pow-miner-gpu: https://github.com/tontechio/pow-miner-gpu-hiveos
+## Getting wallet token
 
-Пакет разработчиков пула tonuniverce: https://github.com/tonuniverse/miningPoolCli/releases/download/v2.1.18/miningPoolCli-2.1.18-linux.tar.gz
+First of all, you need to register in our pool and get your wallet token. That's the way we identify you.
+1) send any message or just `/start` to `@tonguys_pool_bot` in telegram
+2) enter `/set_addres`
+3) send the addres of your TON wallet as a single message.
+4) When you a success message, enter `/show_wallet`
+5) field `Token` is what you need. It should be like `e3624*****************6995`
 
-# Что уже готово:
+## Setting up custom miner
 
-* h-manifest.conf -- более-менее заполнен, скорее всего, изменяться уже не должен, только касательно версии проекта
-* h-config.sh -- успешно генерирует стоку через которую должен запускться клиент
-* h-run.sh -- уже должен запускать пул
+1) Go to HiveOS Flight Sheets section and create new Flight Sheet
+2) Set the field `Coin` to `TON`
+3) Select your wallet
+4) In field `Pool` select `Configure in miner`
+5) Set the field `Miner` to `Custom` and click `Setup Miner Config`
 
-# Что надо деделать:
+Then set up custom miner config:
+* Miner name: `tonguys_pool`
+* Install Url: `https://github.com/tonguys/tonguys-hiveos/releases/download/v0.1.0/tonguys_pool-0.1.0.tar.gz`
+* Hash algorithm: `----` (default)
+* Wallet and Worker template: `%WAL%`
+* Pool url: `null`
+* Pass: `x`
+* Extra config arguments:
+```
+token=<token from @tonguys_pool_bot>
+gpus=[0-3,5] // this field contains ranges of gpus to use. 
+// E.g. if you want miner to use gpus 0, 1, 2, 3 and 5 you should set this parameter to [0-3,5]
+```
 
-* h-stats.sh -- должен отдавать стаитстику касательно загрузки видюх, частоты оборотов вентиляторов и прочее, подробное описание см. полезную инфу и код в пакетах других майнеров
-* проверить работоспособность написанных скриптов
-
-# Примечания
-
-tonguys_client - бинарник с нашим клиентом
-tonguys_miner - бинарник pow-miner-gpu
+So, the latest step is to apply this flight sheet to any Rig, you created
