@@ -10,9 +10,9 @@ echo "Downloading client release: $CLIENT_RELEASE_URL ..."
 wget $CLIENT_RELEASE_URL -O $SCRIPT_DIR/client.tar.gz
 
 echo "Extracting client archive..."
-tar -xzf $SCRIPT_DIR/client.tar.gz -C $SCRIPT_DIR
+tar -xf $SCRIPT_DIR/client.tar.gz -C $SCRIPT_DIR
 
-ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/tonguys_miner -L $SCRIPT_DIR/asd.asd"
+ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/pow-miner-opencl"
 
 inds="[]"
 
@@ -36,7 +36,7 @@ for i in $(echo $CUSTOM_USER_CONFIG); do
     fi
 done
 
-echo "EXEC_LINE=\"$SCRIPT_DIR/client $ARGS_LINE\"" > "$CUSTOM_CONFIG_FILENAME"
-echo "EXEC_LINE=\"$SCRIPT_DIR/cliechent $ARGS_LINE\""
+echo "EXEC_LINE=\"$SCRIPT_DIR/tonguysClient $ARGS_LINE\"" > "$CUSTOM_CONFIG_FILENAME"
+#echo "EXEC_LINE=\"$SCRIPT_DIR/client $ARGS_LINE\""
 echo "GPUS=$(echo $inds | jq -c ".")" >> "$CUSTOM_CONFIG_FILENAME"
-echo "GPUS=$(echo $inds | jq -c ".")"
+#echo "GPUS=$(echo $inds | jq -c ".")"
