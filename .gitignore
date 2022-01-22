@@ -1,3 +1,4 @@
-tonguys_pool/tonguys_miner
+test/
+test_gpu_stats.json
 *.tar.gz
 
