@@ -12,7 +12,8 @@ wget $CLIENT_RELEASE_URL -O $SCRIPT_DIR/client.tar.gz
 echo "Extracting client archive..."
 tar -xf $SCRIPT_DIR/client.tar.gz -C $SCRIPT_DIR
 
-ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/pow-miner-opencl --stats-file $SCRIPT_DIR/stats.json"
+ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/pow-miner-opencl"
+#ARGS_LINE="-u pool.tonguys.com -m $SCRIPT_DIR/pow-miner-opencl --stats-file $SCRIPT_DIR/stats.json"
 
 inds="[]"
 
